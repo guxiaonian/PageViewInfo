@@ -8,6 +8,7 @@ import android.os.Bundle;
 
 
 import fairy.easy.pageviewlifecycle.BasePageViewListener;
+import fairy.easy.pageviewlifecycle.type.PageViewType;
 
 /**
  * 对页面生命周期进行规整
@@ -17,8 +18,8 @@ import fairy.easy.pageviewlifecycle.BasePageViewListener;
  */
 public class LifeCallBacks extends BaseLifeCallBacks implements Application.ActivityLifecycleCallbacks {
 
-    public LifeCallBacks(Context context, BasePageViewListener pageViewListener) {
-        super(context, pageViewListener);
+    public LifeCallBacks(@PageViewType int i, Context context, BasePageViewListener pageViewListener) {
+        super(i,context, pageViewListener);
     }
 
     @Override
@@ -28,29 +29,16 @@ public class LifeCallBacks extends BaseLifeCallBacks implements Application.Acti
 
     @Override
     public void onActivityStarted(final Activity activity) {
-        backHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                start(activity);
-            }
-        });
+        start(activity);
     }
 
     @Override
     public void onActivityResumed(Activity activity) {
-
     }
 
     @Override
     public void onActivityPaused(Activity activity) {
-        if (backHandler != null) {
-            backHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    end();
-                }
-            });
-        }
+        end();
     }
 
     @Override
