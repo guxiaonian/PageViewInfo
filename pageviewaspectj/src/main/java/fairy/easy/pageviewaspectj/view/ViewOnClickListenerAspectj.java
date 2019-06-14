@@ -24,7 +24,7 @@ public class ViewOnClickListenerAspectj extends BaseAspectj {
      * @param joinPoint 切面
      */
     @After("execution(* android.view.View.OnClickListener.onClick(android.view.View))")
-    public void onViewClickAOP(JoinPoint joinPoint) {
+    public void onClickAOP(JoinPoint joinPoint) {
         baseClick(joinPoint);
     }
 
