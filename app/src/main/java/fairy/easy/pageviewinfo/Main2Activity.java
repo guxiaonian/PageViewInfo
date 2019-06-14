@@ -50,7 +50,7 @@ public class Main2Activity extends AppCompatActivity {
         toolAdapter2.setOnItemClickListener(new ToolAdapter.OnItemClickListener() {
             @Override
             public void OnItemClickClickListener(int position) {
-                Toast.makeText(getApplicationContext(), position + "", Toast.LENGTH_SHORT).show();
+
             }
         });
         recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getApplicationContext(), new RecyclerItemClickListener.OnItemClickListener() {
@@ -66,6 +66,7 @@ public class Main2Activity extends AppCompatActivity {
 
             }
         }));
+
 
     }
 }
