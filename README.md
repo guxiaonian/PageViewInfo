@@ -26,7 +26,7 @@ Table of Contents
       * [三种方法的区别](#三种方法的区别)
       * [获取更多View的点击方法](#获取更多View的点击方法)
 
->分三种方法实现
+分三种方法实现
 
 ### FrameLayout方式
 
@@ -44,7 +44,7 @@ PageViewType.frameLayout|int|具体实现方式
 basePageViewListener|BasePageViewListener|点击回调
 
 ###### BasePageViewListener回调
-> 以下三种方式的回调与之保持一致,所以仅说明一次。
+以下三种方式的回调与之保持一致,所以仅说明一次。
 
 > onClick(view)
 普通View的点击事件
@@ -91,12 +91,12 @@ id|long|当前item在AdapterView中的行数
 
 ###### 原理说明
 
-* 在Application中通过registerActivityLifecycleCallbacks来注册Activity的生命周期。
-* 在onActivityStarted对当前页面的View进行遍历并保存至List中。
-* 在每一个Activity的最外层实现FrameLayout。
-* 通过onInterceptTouchEvent的触摸事件来遍历View来实现。
-* 对AdapterView与RecyclerView则通过重写点击事件来实现。
-* 在onActivityPaused对当前页面的View进行清空。
+1. 在Application中通过registerActivityLifecycleCallbacks来注册Activity的生命周期。
+2. 在onActivityStarted对当前页面的View进行遍历并保存至List中。
+3. 在每一个Activity的最外层实现FrameLayout。
+4. 通过onInterceptTouchEvent的触摸事件来遍历View来实现。
+5. 对AdapterView与RecyclerView则通过重写点击事件来实现。
+6. 在onActivityPaused对当前页面的View进行清空。
 
 ### 反射方式
 
@@ -115,11 +115,11 @@ basePageViewListener|BasePageViewListener|点击回调
 
 ###### 原理说明
 
-* 在Application中通过registerActivityLifecycleCallbacks来注册Activity的生命周期。
-* 在onActivityStarted对当前页面的View进行遍历并保存至List中。
-* 反射在View的mOnClickListener中设置自定义的点击事件。
-* 对AdapterView与RecyclerView则通过重写点击事件来实现。
-* 在onActivityPaused对当前页面的View进行清空。
+1. 在Application中通过registerActivityLifecycleCallbacks来注册Activity的生命周期。
+2. 在onActivityStarted对当前页面的View进行遍历并保存至List中。
+3. 反射在View的mOnClickListener中设置自定义的点击事件。
+4. 对AdapterView与RecyclerView则通过重写点击事件来实现。
+5. 在onActivityPaused对当前页面的View进行清空。
 
 ### AOP方式
 
@@ -137,9 +137,9 @@ basePageViewListener|BasePageViewListener|点击回调
 
 ###### 原理说明
 
-* 通过Aspectj框架来对全局的View进行切入。
-* 使用@Aspect表示切入的类。
-* 使用@After在切入的方法执行异步执行自定义的相关逻辑。
+1. 通过Aspectj框架来对全局的View进行切入。
+2. 使用@Aspect表示切入的类。
+3. 使用@After在切入的方法执行异步执行自定义的相关逻辑。
 
 ### 疑问解答
 

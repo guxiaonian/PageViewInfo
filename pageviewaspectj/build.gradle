@@ -6,7 +6,13 @@ import org.aspectj.tools.ajc.Main
 
 android.libraryVariants.all {
     variant ->  LibraryPlugin plugin = project.plugins.getPlugin(LibraryPlugin)
-    JavaCompile javaCompile = variant.javaCompile
+        JavaCompile javaCompile
+        if (variant.hasProperty('javaCompileProvider')) {
+            // Android 3.3.0+
+            javaCompile = variant.javaCompileProvider.get()
+        } else {
+            javaCompile = variant.javaCompile
+        }
     javaCompile.doLast {
         String[] args = ["-showWeaveInfo",
                          "-1.8",
