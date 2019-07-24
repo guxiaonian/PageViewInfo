@@ -23,8 +23,8 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-//        initLifecycle();
-        initAspectj();
+        initLifecycle();
+//        initAspectj();
         if (LeakCanary.isInAnalyzerProcess(this)) {
             // This process is dedicated to LeakCanary for heap analysis.
             // You should not init your app in this process.

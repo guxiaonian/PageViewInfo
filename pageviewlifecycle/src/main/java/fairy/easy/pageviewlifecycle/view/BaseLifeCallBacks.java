@@ -41,6 +41,9 @@ class BaseLifeCallBacks {
         this.mPageViewListener = pageViewListener;
     }
 
+    private OnClickListenerProxy onClickListenerProxy;
+    private OnItemClickListenerProxy onItemClickListenerProxy;
+    private OnItemSelectedListenerProxy onItemSelectedListenerProxy;
 
     void start(Activity activity) {
         this.activityRefer = new WeakReference<>(activity);
@@ -82,7 +85,7 @@ class BaseLifeCallBacks {
             fieldOnClickListener.setAccessible(true);
             View.OnClickListener mOnClickListenerObject = (View.OnClickListener) fieldOnClickListener.get(listenerInfoObject);
             if (!(mOnClickListenerObject instanceof OnClickListenerProxy)) {
-                View.OnClickListener onClickListenerProxy = new OnClickListenerProxy(mOnClickListenerObject, new OnClickListenerProxy.OnClickListener() {
+                onClickListenerProxy = new OnClickListenerProxy(mOnClickListenerObject, new OnClickListenerProxy.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         if (mPageViewListener != null) {
@@ -162,20 +165,22 @@ class BaseLifeCallBacks {
         AdapterView adapterView = (AdapterView) vg;
         AdapterView.OnItemClickListener itemClickListener = adapterView.getOnItemClickListener();
         if (itemClickListener != null && !(itemClickListener instanceof OnItemClickListenerProxy)) {
-            adapterView.setOnItemClickListener(new OnItemClickListenerProxy(itemClickListener, new OnItemClickListenerProxy.OnItemClickListener() {
+            onItemClickListenerProxy = new OnItemClickListenerProxy(itemClickListener, new OnItemClickListenerProxy.OnItemClickListener() {
                 @Override
                 public void doItemListener(AdapterView<?> adapterView, View view, int i, long l) {
                     if (mPageViewListener != null) {
                         mPageViewListener.onItemClick(adapterView, view, i, l);
                     }
                 }
-            }));
+            });
+
+            adapterView.setOnItemClickListener(onItemClickListenerProxy);
         }
 
 
         AdapterView.OnItemSelectedListener itemSelectedListener = adapterView.getOnItemSelectedListener();
         if (itemSelectedListener != null && !(itemSelectedListener instanceof OnItemSelectedListenerProxy)) {
-            adapterView.setOnItemSelectedListener(new OnItemSelectedListenerProxy(itemSelectedListener, new OnItemSelectedListenerProxy.OnItemSelectedListener() {
+            onItemSelectedListenerProxy=new OnItemSelectedListenerProxy(itemSelectedListener, new OnItemSelectedListenerProxy.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                     if (mPageViewListener != null) {
@@ -189,7 +194,9 @@ class BaseLifeCallBacks {
                         mPageViewListener.onNothingSelected(adapterView);
                     }
                 }
-            }));
+            });
+
+            adapterView.setOnItemSelectedListener(onItemSelectedListenerProxy);
         }
 
     }
@@ -201,7 +208,11 @@ class BaseLifeCallBacks {
             }
         }
         listRecyclerView.clear();
+        mOnRecyclerViewItemClickListenerProxy=null;
         mViews.clear();
+        onClickListenerProxy = null;
+        onItemClickListenerProxy=null;
+        onItemSelectedListenerProxy=null;
     }
 
 
